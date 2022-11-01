@@ -4,17 +4,14 @@ module.exports = {
     es2021: true
   },
   extends: [
-    'plugin:vue/vue3-essential',
-    'standard',
+    'plugin:vue/vue3-strongly-recommended',
     'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  plugins: [
-    'vue'
-  ],
+  plugins: [],
   rules: {
     "prettier/prettier": [
       "error",
