@@ -1,0 +1,17 @@
+:root {
+  --main-color: #1A6AFD;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  position: relative;
+}

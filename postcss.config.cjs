@@ -11,6 +11,9 @@ module.exports = {
       ],
       'properties-order': 'alphabetical',
       'unspecified-properties-position': 'bottom',
+    },
+    'postcss-px-to-viewport-8-plugin': {
+      viewportWidth: 375,
     }
   },
 }
