@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <div class="btn-profile"><i class="icon-font">&#xe61e;</i></div>
     <div class="banner"></div>
     <div class="top">
       <div class="call-box">
@@ -105,6 +106,33 @@ const desc = ref('这是一段最多显示一行的文字，多余的内容会�
 <style lang="scss" scoped>
 $gold: #b0aa3c;
 $padding-lr: 17px;
+
+.btn-profile {
+  position: fixed;
+  right: $padding-lr;
+  top: 50vh;
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  background-color: $gold;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 50%);
+  cursor: pointer;
+  z-index: 99;
+
+  .icon-font {
+    display: block;
+    margin-top: 10px;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .icon-font::after {
+    display: block;
+    content: '我的';
+    font-size: 12px;
+  }
+}
 
 .banner {
   width: 375px;

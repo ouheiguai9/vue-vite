@@ -1,14 +1,9 @@
-import CustomerHome from 'views/CustomerHome.vue'
-import LawyerHome from 'views/LawyerHome.vue'
+import HomeView from 'views/HomeView.vue'
 
 const routes = [
   {
-    path: '/customer',
-    component: CustomerHome,
-  },
-  {
-    path: '/lawyer',
-    component: LawyerHome,
+    path: '/',
+    component: HomeView,
   },
 ]
 export default routes
