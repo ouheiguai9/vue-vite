@@ -2,6 +2,14 @@
   --main-color: #1A6AFD;
 }
 
+@font-face {
+  font-family: iconfont; /* Project id 3740602 */
+  src: url('assets/icon-font/iconfont.woff2?t=1667638770159') format('woff2'),
+  url('assets/icon-font/iconfont.woff?t=1667638770159') format('woff'),
+  url('assets/icon-font/iconfont.ttf?t=1667638770159') format('truetype'),
+  url('assets/icon-font/iconfont.svg?t=1667638770159#iconfont') format('svg');
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,6 +18,14 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'Hiragino Sans GB', Arial, sans-serif;
+  color: #232323;
+  font-size: 14px;
+}
+
+.icon-font {
+  font-family: iconfont, serif !important;
+  font-style: normal;
 }
 
 .page {
