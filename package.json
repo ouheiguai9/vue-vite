@@ -45,7 +45,10 @@
       "stylelint-config-standard-scss",
       "stylelint-config-prettier-scss",
       "stylelint-config-html"
-    ]
+    ],
+    "rules": {
+      "scss/at-extend-no-missing-placeholder": false
+    }
   },
   "browserslist": [
     "defaults",

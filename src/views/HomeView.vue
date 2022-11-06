@@ -2,19 +2,7 @@
   <div class="page">
     <div class="btn-profile"><i class="icon-font">&#xe61e;</i></div>
     <div class="banner"></div>
-    <div class="top">
-      <div class="call-box">
-        <div class="icon-box icon-font">&#xe94f;</div>
-        <div class="txt-box">
-          <div><span>立即问律师</span>8元/分钟</div>
-          <div>24小时专业一对一律师服务</div>
-        </div>
-        <div class="btn-box">去咨询 ></div>
-      </div>
-      <div class="white-bg">
-        <div class="news-box">服务动态<i class="icon-font">&#xe607;</i><span>189****3030</span>刚刚完成了一次电话咨询</div>
-      </div>
-    </div>
+    <div class="van-ellipsis news-box">服务动态<i class="icon-font">&#xe607;</i><span>189****3030</span>刚刚完成了一次电话咨询</div>
     <div class="card-box">
       <div class="title-box">
         <span class="txt">按分类去咨询</span>
@@ -45,7 +33,7 @@
           <div>劳动就业</div>
         </div>
         <div class="item-box">
-          <i class="icon-font">&#xe621;</i>
+          <i class="icon-font">&#xe694;</i>
           <div>刑事案件</div>
         </div>
         <div class="item-box">
@@ -58,7 +46,7 @@
       <div class="item-box"><i class="icon-font">&#xe624;</i> 实名认证</div>
       <div class="item-box"><i class="icon-font">&#xeacc;</i> 真实律师</div>
       <div class="item-box"><i class="icon-font">&#xe608;</i> 执业职格</div>
-      <div class="item-box"><i class="icon-font">&#xe65c;</i> 实名认证</div>
+      <div class="item-box"><i class="icon-font">&#xe629;</i> 平台担保</div>
     </div>
     <div class="card-box">
       <div class="title-box">
@@ -85,7 +73,6 @@
           <div class="van-multi-ellipsis--l2 desc-row">{{ desc }}</div>
           <div class="comment-card-row">
             <van-rate v-model="rateValue" :size="16" color="#ffd21e" readonly allow-half />
-            <div>服务态度: {{ rateValue }}</div>
             <div style="text-align: right">2022-10-11 13:14</div>
           </div>
         </div>
@@ -136,90 +123,25 @@ $padding-lr: 17px;
 
 .banner {
   width: 375px;
-  height: 169px;
-  background: url('assets/banner.jpg') no-repeat;
+  height: 316px;
+  background: url('assets/banner.png') no-repeat;
   background-size: cover;
 }
 
-.top {
-  position: relative;
-  width: 375px;
-  height: 130px;
-  padding-top: 40px;
-  background-color: var(--main-color);
+.news-box {
+  height: 33px;
+  padding: 0 $padding-lr;
+  font-size: 12px;
+  line-height: 30px;
+  border-bottom: 3px solid #e0e0e0;
 
-  .call-box {
-    display: flex;
-    position: absolute;
-    left: $padding-lr;
-    top: 0;
-    width: 341px;
-    height: 80px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px;
-    border-radius: 16px;
-    background-color: #fff;
-    box-shadow: 0 5px 20px 3px rgb(0 0 0 / 30%);
-    cursor: pointer;
-
-    .icon-box {
-      width: 48px;
-      height: 48px;
-      line-height: 48px;
-      text-align: center;
-      color: #fff;
-      font-size: 24px;
-      border-radius: 50%;
-      background-color: var(--main-color);
-    }
-
-    .txt-box {
-      font-weight: 700;
-      line-height: 24px;
-
-      span {
-        margin-right: 8px;
-        font-size: 16px;
-      }
-    }
-
-    .btn-box {
-      width: 80px;
-      height: 24px;
-      line-height: 24px;
-      font-size: 12px;
-      text-align: center;
-      color: #fff;
-      border-radius: 12px;
-      background-color: var(--main-color);
-    }
+  span,
+  i {
+    margin: 0 6px;
   }
 
-  .white-bg {
-    width: 375px;
-    height: 90px;
-    padding: 0 5px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    background-color: #fff;
-
-    .news-box {
-      height: 90px;
-      padding: 57px 12px 0;
-      font-size: 13px;
-      line-height: 30px;
-      border-bottom: 3px solid #e0e0e0;
-
-      span,
-      i {
-        margin: 0 12px;
-      }
-
-      i {
-        color: #b0b0b0;
-      }
-    }
+  i {
+    color: #b0b0b0;
   }
 }
 
@@ -276,10 +198,9 @@ $padding-lr: 17px;
 
   .title-box {
     display: flex;
-    height: 32px;
+    padding-bottom: $padding-lr;
     justify-content: space-between;
     align-items: center;
-    line-height: 32px;
 
     .txt {
       font-weight: 700;
@@ -316,12 +237,13 @@ $padding-lr: 17px;
       cursor: pointer;
 
       .icon-font {
-        font-size: 45px;
+        font-size: 28px;
         color: var(--main-color);
       }
 
       div {
         margin-top: 8px;
+        color: #1f1f1f;
       }
     }
   }
