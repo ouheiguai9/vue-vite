@@ -1,25 +1,15 @@
 <template>
-  <div class="t-center f-s-ex-small f-c-ex-light">
-    <div><span class="logo-bg"></span></div>
-    <div class="f-s-normal f-c-black"><span>全国在线法律服务平台</span></div>
-    <div>
-      <span><i class="icon-font">&#xe624;</i> 实名认证</span>
-      <span><i class="icon-font">&#xe608;</i> 严审律师资质</span>
+  <div class="center-content f-s-extra-small f-c-extra-light">
+    <div class="mg-b-8"><span class="icon-view s-32 logo-bg"></span></div>
+    <div class="mg-b-8 f-s-base f-c-black f-w-bold"><span>全国在线法律服务平台</span></div>
+    <div class="mg-b-8 f-w-light">
+      <span class="mg-r-16"><i class="icon-font">&#xe624;</i> 实名认证</span>
+      <span class="mg-r-16"><i class="icon-font">&#xe608;</i> 严审律师资质</span>
       <span><i class="icon-font">&#xeacc;</i> 真实律师解答</span>
     </div>
-    <div>
-      <span>工作时间：7*24小时在线</span>
+    <div class="mg-b-24 f-w-light">
+      <span class="mg-r-16">工作时间：7*24小时在线</span>
       <span>ICP官方备案</span>
     </div>
   </div>
 </template>
-<style scoped>
-span {
-  display: inline-block;
-  margin: 0 16px 8px 0;
-}
-
-span:last-child {
-  margin-right: 0;
-}
-</style>

@@ -1,9 +1,38 @@
+@use "sass:map";
+
+$main-color: #1a6afd;
+$border-color: #efefef;
+$font-sizes: (
+        extra-small: 12px,
+        small: 14px,
+        base: 16px,
+        medium: 18px,
+        large: 20px,
+        extra-large: 24px
+);
+$font-colors: (
+        "white": #FFF,
+        "black": #121212,
+        base: #303133,
+        sub: #5A5E66,
+        light: #909399,
+        extra-light: #C0C4CC,
+        main: $main-color,
+);
+$mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
+
 :root {
-  --main-color: #1A6AFD;
+  --main-color: #{$main-color};
+  @each $key, $value in $font-sizes {
+    --font-size-#{$key}: #{$value};
+  }
+  @each $key, $value in $font-colors {
+    --font-color-#{$key}: #{$value};
+  }
 }
 
 @font-face {
-  font-family: iconfont; /* Project id 3740602 */
+  font-family: iconfont;
   src: url('assets/icon-font/iconfont.woff2?t=1667638770159') format('woff2'),
   url('assets/icon-font/iconfont.woff?t=1667638770159') format('woff'),
   url('assets/icon-font/iconfont.ttf?t=1667638770159') format('truetype'),
@@ -14,57 +43,110 @@
   box-sizing: border-box;
 }
 
+@each $key, $value in $font-sizes {
+  .f-s-#{$key} {
+    font-size: $value !important;
+  }
+}
+
+@each $key, $value in $font-colors {
+  .f-c-#{$key} {
+    color: $value !important;
+  }
+}
+
+.f-w-light {
+  font-weight: 100 !important;
+}
+
+.f-w-bold {
+  font-weight: 700 !important;
+}
+
 .icon-font {
   font-family: iconfont, serif !important;
   font-style: normal;
 }
 
-.t-center {
+.icon-view {
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+
+  $sizes: 12, 16, 18, 24, 32, 48, 64, 128;
+  @each $size in $sizes {
+    &.s-#{$size} {
+      width: #{$size}px;
+      height: #{$size}px;
+    }
+  }
+}
+
+@each $size in $mp-sizes {
+  $prefixes: (
+          pd: "padding",
+          mg: "margin"
+  );
+  @each $key, $value in $prefixes {
+    .#{$key}-t-#{$size} {
+      #{$value}-top: #{$size}px;
+    }
+    .#{$key}-b-#{$size} {
+      #{$value}-bottom: #{$size}px;
+    }
+    .#{$key}-l-#{$size} {
+      #{$value}-left: #{$size}px;
+    }
+    .#{$key}-r-#{$size} {
+      #{$value}-right: #{$size}px;
+    }
+    .#{$key}-tb-#{$size} {
+      #{$value}-top: #{$size}px;
+      #{$value}-bottom: #{$size}px;
+    }
+    .#{$key}-lr-#{$size} {
+      #{$value}-left: #{$size}px;
+      #{$value}-right: #{$size}px;
+    }
+    .#{$key}-#{$size} {
+      #{$value}: #{$size}px;
+    }
+  }
+}
+
+.center-content {
   text-align: center !important;
 }
 
-.t-right {
+.right-content {
   text-align: right !important;
 }
 
-.f-s-ex-small {
-  font-size: 12px !important;
+.nowrap {
+  white-space: nowrap !important;
 }
 
-.f-s-small {
-  font-size: 14px !important;
+.text-overflow {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
-.f-s-normal {
-  font-size: 16px !important;
+.flex-r-center {
+  display: flex;
+  align-items: center;
 }
 
-.f-s-large {
-  font-size: 20px !important;
+.flex-r-st {
+  @extend .flex-r-center;
+
+  justify-content: space-between;
 }
 
-.f-s-ex-large {
-  font-size: 24px !important;
-}
-
-.f-c-ex-light {
-  color: #aaa !important;
-}
-
-.f-c-light {
-  color: #666 !important;
-}
-
-.f-c-normal {
-  color: #232323 !important;
-}
-
-.f-c-black {
-  color: #000 !important;
-}
-
-.f-c-white {
-  color: #fff !important;
+.flex-wrap {
+  flex-wrap: wrap !important;
 }
 
 html,
@@ -72,8 +154,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'Hiragino Sans GB', Arial, sans-serif;
-  @extend .f-c-normal;
-  @extend .f-s-normal;
+  font-size: map.get($font-sizes, base);
+  color: map.get($font-colors, base);
 }
 
 .page {
@@ -82,5 +164,5 @@ body {
 
 .logo-bg {
   display: inline-block;
-  background: url('assets/logo.svg');
+  background-image: url('assets/logo.svg');
 }
