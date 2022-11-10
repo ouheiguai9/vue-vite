@@ -2,13 +2,13 @@
   <div class="page">
     <header>
       <div class="call flex-r-st f-c-white mg-lr-16 pd-lr-16">
-        <div class="call-phone icon-font center-content">&#xe94f;</div>
+        <div class="call-phone circle icon-font center-content">&#xe94f;</div>
         <div class="call-fee"></div>
         <div class="call-btn pd-lr-8 pd-tb-4">去咨询 ></div>
       </div>
     </header>
     <main class="pd-lr-16 mg-tb-12">
-      <div class="btn-profile f-c-white center-content mg-r-16">
+      <div class="btn-profile circle f-c-white center-content mg-r-16">
         <div class="icon-font f-s-extra-large pd-t-8">&#xe61e;</div>
         <div class="f-s-extra-small f-w-light pd-t-2">我的</div>
       </div>
@@ -142,7 +142,6 @@ header {
       line-height: 64px;
       font-size: 40px;
       background-color: var(--main-color);
-      border-radius: 50%;
     }
 
     .call-fee {
@@ -169,7 +168,6 @@ main {
     width: 48px;
     height: 48px;
     background-color: $gold;
-    border-radius: 50%;
     box-shadow: 0 0 10px 2px rgb(0 0 0 / 50%);
     cursor: pointer;
     z-index: 99;

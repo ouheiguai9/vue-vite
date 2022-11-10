@@ -63,6 +63,10 @@ $mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
   font-weight: 700 !important;
 }
 
+.circle {
+  border-radius: 50%;
+}
+
 .icon-font {
   font-family: iconfont, serif !important;
   font-style: normal;
