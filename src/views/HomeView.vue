@@ -1,14 +1,14 @@
 <template>
   <div class="page">
     <header>
-      <div class="call flex-r-st f-c-white mg-lr-16 pd-lr-16">
+      <div class="call shadow-box flex-r-st f-c-white mg-lr-16 pd-lr-16" @touchstart="showConsult = true">
         <div class="call-phone circle icon-font center-content">&#xe94f;</div>
         <div class="call-fee"></div>
         <div class="call-btn pd-lr-8 pd-tb-4">去咨询 ></div>
       </div>
     </header>
     <main class="pd-lr-16 mg-tb-12">
-      <div class="btn-profile circle f-c-white center-content mg-r-16">
+      <div class="btn-profile circle f-c-white center-content mg-r-16" @touchstart="onClickProfile">
         <div class="icon-font f-s-extra-large pd-t-8">&#xe61e;</div>
         <div class="f-s-extra-small f-w-light pd-t-2">我的</div>
       </div>
@@ -21,7 +21,7 @@
           <div class="flex-r-st f-c-black f-w-bold"><span class="title-dot mg-r-8"></span><span>按分类去咨询</span></div>
         </div>
         <div class="flex-r-st flex-wrap">
-          <div class="service-item center-content mg-t-12" v-for="item in serviceTypeList" :key="item.text">
+          <div class="service-item center-content mg-t-12 pd-4" v-for="item in serviceTypeList" :key="item.text" @touchstart="showConsult = true">
             <i class="icon-font" v-html="item.icon"></i>
             <div class="mg-t-8 f-s-small">{{ item.text }}</div>
           </div>
@@ -57,12 +57,18 @@
       </div>
     </main>
     <app-footer></app-footer>
+    <consult-confirm v-show="showConsult" @on-cancel="showConsult = false" @on-ok="showConsult = false"></consult-confirm>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import AppFooter from 'components/AppFooter.vue'
+import ConsultConfirm from 'components/ConsultConfirm.vue'
+import useSystemStore from 'stores/system'
+
+const systemStore = useSystemStore()
+const showConsult = ref(false)
 const serviceTypeList = [
   {
     text: '婚姻财产',
@@ -114,13 +120,23 @@ const tags = [
 const list = ['a', 'b', 'c']
 const rateValue = ref(4.3)
 const desc = ref('这是一段最多显示一行的文字，多余的内容会被省略这是一段最多显示一行的文字，多余的内容会被省略')
+
+onMounted(() => {
+  if (systemStore.showConsult) {
+    // setTimeout(() => {
+    //   showConsult.value = true
+    // }, 5000)
+  }
+})
+
+function onClickProfile(e) {
+  console.warn(e)
+}
 </script>
 
 <style lang="scss" scoped>
-$gold: #b0aa3c;
-
 .gold-text {
-  color: $gold !important;
+  color: var(--sub-color) !important;
 }
 
 header {
@@ -134,7 +150,6 @@ header {
     height: 100px;
     border-radius: 16px;
     background-color: #fff;
-    box-shadow: 0 0 16px #666;
 
     .call-phone {
       width: 64px;
@@ -167,10 +182,10 @@ main {
     top: 50vh;
     width: 48px;
     height: 48px;
-    background-color: $gold;
+    background-color: var(--sub-color);
     box-shadow: 0 0 10px 2px rgb(0 0 0 / 50%);
     cursor: pointer;
-    z-index: 99;
+    z-index: 1;
   }
 
   .title-dot {
@@ -188,6 +203,10 @@ main {
       font-size: 24px;
       color: var(--main-color);
     }
+  }
+
+  .service-item:active {
+    background-color: #efefef;
   }
 
   .quality-box {

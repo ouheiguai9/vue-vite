@@ -23,6 +23,7 @@ $mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
 
 :root {
   --main-color: #{$main-color};
+  --sub-color: #b0aa3c;
   @each $key, $value in $font-sizes {
     --font-size-#{$key}: #{$value};
   }
@@ -33,10 +34,10 @@ $mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
 
 @font-face {
   font-family: iconfont;
-  src: url('assets/icon-font/iconfont.woff2?t=1667638770159') format('woff2'),
-  url('assets/icon-font/iconfont.woff?t=1667638770159') format('woff'),
-  url('assets/icon-font/iconfont.ttf?t=1667638770159') format('truetype'),
-  url('assets/icon-font/iconfont.svg?t=1667638770159#iconfont') format('svg');
+  src: url('assets/icon-font/iconfont.woff2?t=1545807318834') format('woff2'),
+  url('assets/icon-font/iconfont.woff?t=1545807318834') format('woff'),
+  url('assets/icon-font/iconfont.ttf?t=1545807318834') format('truetype'),
+  url('assets/icon-font/iconfont.svg?t=1545807318834#iconfont') format('svg');
 }
 
 * {
@@ -143,6 +144,16 @@ $mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
   align-items: center;
 }
 
+.flex-c-center {
+  @extend .flex-r-center;
+
+  flex-direction: column;
+}
+
+.shadow-box {
+  box-shadow: 0 0 16px #727272;
+}
+
 .flex-r-st {
   @extend .flex-r-center;
 
@@ -164,6 +175,7 @@ body {
 
 .page {
   position: relative;
+  background-color: #fff;
 }
 
 .logo-bg {
