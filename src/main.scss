@@ -19,7 +19,7 @@ $font-colors: (
         extra-light: #C0C4CC,
         main: $main-color,
 );
-$mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
+$mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24, 48, 64;
 
 :root {
   --main-color: #{$main-color};
@@ -158,6 +158,10 @@ $mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24;
   @extend .flex-r-center;
 
   justify-content: space-between;
+}
+
+.flex-jc-center {
+  justify-content: center !important;
 }
 
 .flex-wrap {

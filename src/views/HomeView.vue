@@ -14,7 +14,7 @@
       </div>
       <div class="flex-r-st f-c-black f-s-small pd-b-12" style="border-bottom: 2px solid #ddd">
         <div>服务动态<i class="icon-font f-c-light mg-l-8">&#xe607;</i></div>
-        <div class="text-overflow">189****3030 刚刚完成了一次电话咨询</div>
+        <div class="text-overflow">{{ phone }} 刚刚完成了一次电话咨询</div>
       </div>
       <div class="mg-t-12">
         <div class="flex-r-st">
@@ -57,7 +57,7 @@
       </div>
     </main>
     <app-footer></app-footer>
-    <consult-confirm v-show="showConsult" @on-cancel="showConsult = false" @on-ok="showConsult = false"></consult-confirm>
+    <consult-confirm v-show="showConsult" @on-cancel="onCancelCallConfirm" @on-ok="showConsult = false"></consult-confirm>
   </div>
 </template>
 
@@ -66,6 +66,7 @@ import { ref, onMounted } from 'vue'
 import AppFooter from 'components/AppFooter.vue'
 import ConsultConfirm from 'components/ConsultConfirm.vue'
 import useSystemStore from 'stores/system'
+import { useRouter } from 'vue-router'
 
 const systemStore = useSystemStore()
 const showConsult = ref(false)
@@ -117,20 +118,43 @@ const tags = [
     count: 213,
   },
 ]
+const router = useRouter()
+const phone = ref(randomPhone())
 const list = ['a', 'b', 'c']
 const rateValue = ref(4.3)
 const desc = ref('这是一段最多显示一行的文字，多余的内容会被省略这是一段最多显示一行的文字，多余的内容会被省略')
 
 onMounted(() => {
   if (systemStore.showConsult) {
-    // setTimeout(() => {
-    //   showConsult.value = true
-    // }, 5000)
+    setTimeout(() => {
+      showConsult.value = systemStore.showConsult
+    }, 5000)
   }
+  intervalRefreshPhone()
 })
 
-function onClickProfile(e) {
-  console.warn(e)
+function onCancelCallConfirm() {
+  systemStore.dontShowConsult()
+  showConsult.value = false
+}
+
+function onClickProfile() {
+  router.push({ name: 'My' })
+}
+
+function intervalRefreshPhone() {
+  setTimeout(function () {
+    phone.value = randomPhone()
+    intervalRefreshPhone()
+  }, (5 + Math.floor(Math.random() * 15)) * 1000)
+}
+
+function randomPhone() {
+  const prefix = [
+    130, 131, 133, 135, 136, 137, 138, 150, 151, 152, 153, 155, 156, 157, 158, 159, 177, 178, 181, 182, 183, 184, 185, 186, 187, 188, 189,
+  ]
+  const index = Math.floor(Math.random() * prefix.length) % prefix.length
+  return prefix[index] + '****' + (1111 + Math.random() * 8888).toFixed(0)
 }
 </script>
 
