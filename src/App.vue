@@ -1,12 +1,14 @@
 <template>
   <router-view />
   <div :class="`notify-box ${notify.typeClass} pd-8`" v-show="notify.show">{{ notify.content }}</div>
+  <app-loading></app-loading>
 </template>
 <script setup>
 import { bindTokenGetter, isHttpError, isNetworkError } from '@/api.js'
 import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
 import { computed, onBeforeMount, onBeforeUnmount, reactive, provide } from 'vue'
+import AppLoading from 'components/AppLoading.vue'
 const router = useRouter()
 const systemStore = useSystemStore()
 const notify = reactive({
