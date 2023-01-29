@@ -16,7 +16,7 @@ const htmlPlugin = () => {
 export default defineConfig({
   resolve: {
     alias: {
-      // apis: path.resolve(__dirname, 'src/apis'),
+      '@': path.resolve(__dirname, 'src'),
       assets: path.resolve(__dirname, 'src/assets'),
       components: path.resolve(__dirname, 'src/components'),
       // composables: path.resolve(__dirname, 'src/composables'),
@@ -32,4 +32,16 @@ export default defineConfig({
     }),
     htmlPlugin(),
   ],
+  build: {
+    assetsInlineLimit: 20 * 1024,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
+        },
+      },
+    },
+  },
 })

@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="quality-box flex-r-st f-s-extra-small mg-t-12 gold-text pd-8">
-        <div class="flex-r-st"><i class="icon-font f-s-base mg-r-4">&#xe624;</i> 实名认证</div>
+        <div class="flex-r-st"><i class="icon-font f-s-base mg-r-4">&#xe63f;</i> 实名认证</div>
         <div class="flex-r-st"><i class="icon-font f-s-base mg-r-4">&#xeacc;</i> 真实律师</div>
         <div class="flex-r-st"><i class="icon-font f-s-base mg-r-4">&#xe608;</i> 执业职格</div>
         <div class="flex-r-st"><i class="icon-font f-s-base mg-r-4">&#xe629;</i> 平台担保</div>

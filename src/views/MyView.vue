@@ -24,11 +24,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import useSystemStore from 'stores/system.js'
 
+const systemStore = useSystemStore()
 const router = useRouter()
-const myPhone = ref('189****3030')
+const myPhone = computed(() => {
+  return systemStore.user.phone.replace(/^(\d{3})\d{4}(\d{4})$/, (rs, p1, p2) => `${p1}****${p2}`)
+})
 function goBack() {
   router.back()
 }
