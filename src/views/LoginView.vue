@@ -19,7 +19,7 @@
       <span class="icon-font f-s-large f-c-main mg-r-8" v-html="checkIcon"></span>我同意
       <span class="f-c-main mg-l-8" @touchstart.stop="showWord">《用户注册协议》</span>
     </div>
-    <button class="btn-submit center-content f-c-white mg-t-24 mg-b-64" @touchstart="doLogin">登录/注册</button>
+    <button class="btn-submit center-content f-c-white mg-t-24 mg-b-64" :class="{ disabled: !checked }" @touchstart="doLogin">登录/注册</button>
   </div>
 </template>
 
@@ -65,16 +65,18 @@ function sendCaptcha() {
 }
 
 function doLogin() {
-  if (!checked.value) {
-    feedback.showErrorMessage('请阅读并同意用户协议')
+  if (!checked.value || !testPhone() || !testCaptcha()) {
     return
   }
-  if (!testPhone() || !testCaptcha()) {
-    return
-  }
-  systemStore.login(phone.value, captcha.value).then(() => {
-    router.replace(!systemStore.targetRoute ? { name: 'Home' } : systemStore.targetRoute)
-  })
+  feedback.showAppLoading()
+  systemStore
+    .login(phone.value, captcha.value)
+    .then(() => {
+      router.replace(!systemStore.targetRoute ? { name: 'Home' } : systemStore.targetRoute)
+    })
+    .finally(() => {
+      feedback.closeAppLoading()
+    })
 }
 
 function testPhone() {
@@ -143,5 +145,10 @@ input[type='checkbox'] {
   border-radius: 22px;
   background-color: var(--main-color);
   border: 1px solid var(--main-color);
+
+  &.disabled {
+    background-color: var(--main-color-7);
+    border: 1px solid var(--main-color-7);
+  }
 }
 </style>

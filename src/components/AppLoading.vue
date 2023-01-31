@@ -10,11 +10,11 @@
 defineProps({
   background: {
     type: String,
-    default: 'rgba(0,0,0,0.5)',
+    default: 'rgba(0,0,0,0.1)',
   },
   iconColor: {
     type: String,
-    default: '#ccc',
+    default: '#fff',
   },
 })
 </script>

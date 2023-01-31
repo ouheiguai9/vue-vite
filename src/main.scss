@@ -1,6 +1,9 @@
+@use 'sass:color';
+@use 'sass:math';
 @use "sass:map";
 
 $main-color: #1a6afd;
+$white-color: #fff;
 $border-color: #efefef;
 $font-sizes: (
         extra-small: 12px,
@@ -11,7 +14,7 @@ $font-sizes: (
         extra-large: 24px
 );
 $font-colors: (
-        "white": #FFF,
+        "white": $white-color,
         "black": #121212,
         base: #303133,
         sub: #5A5E66,
@@ -24,6 +27,11 @@ $mp-sizes: 0, 2, 4, 8, 12, 16, 20, 24, 48, 64;
 :root {
   --main-color: #{$main-color};
   --sub-color: #b0aa3c;
+
+  @for $number from 1 through 9 {
+    --main-color-#{$number}: #{color.mix($white-color, $main-color, math.percentage(math.div($number, 10)))};
+  }
+
   @each $key, $value in $font-sizes {
     --font-size-#{$key}: #{$value};
   }

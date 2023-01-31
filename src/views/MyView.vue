@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
 

@@ -10,7 +10,13 @@ export default defineStore(id, {
       user: null,
       targetRoute: null,
       showConsult: true,
+      serviceType: '',
     }
+  },
+  getters: {
+    isAuthenticated() {
+      return this.user !== null
+    },
   },
   actions: {
     dontShowConsult() {

@@ -21,7 +21,12 @@
           <div class="flex-r-st f-c-black f-w-bold"><span class="title-dot mg-r-8"></span><span>按分类去咨询</span></div>
         </div>
         <div class="flex-r-st flex-wrap">
-          <div class="service-item center-content mg-t-12 pd-4" v-for="item in serviceTypeList" :key="item.text" @touchstart="showConsult = true">
+          <div
+            class="service-item center-content mg-t-12 pd-4"
+            v-for="item in serviceTypeList"
+            :key="item.text"
+            @touchstart="onClickServiceType(item.text)"
+          >
             <i class="icon-font" v-html="item.icon"></i>
             <div class="mg-t-8 f-s-small">{{ item.text }}</div>
           </div>
@@ -57,7 +62,7 @@
       </div>
     </main>
     <app-footer></app-footer>
-    <consult-confirm v-show="showConsult" @on-cancel="onCancelCallConfirm" @on-ok="showConsult = false"></consult-confirm>
+    <consult-confirm v-if="showConsult" @on-cancel="onCancelCallConfirm" @on-ok="onOkCallConfirm"></consult-confirm>
   </div>
 </template>
 
@@ -133,9 +138,23 @@ onMounted(() => {
   intervalRefreshPhone()
 })
 
+function onClickServiceType(text) {
+  systemStore.serviceType = text
+  showConsult.value = true
+}
+
 function onCancelCallConfirm() {
   systemStore.dontShowConsult()
   showConsult.value = false
+}
+
+function onOkCallConfirm() {
+  onCancelCallConfirm()
+  if (systemStore.isAuthenticated) {
+    router.push({ name: 'Service' })
+  } else {
+    router.push({ name: 'Login' })
+  }
 }
 
 function onClickProfile() {

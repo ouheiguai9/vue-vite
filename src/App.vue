@@ -1,16 +1,17 @@
 <template>
   <router-view />
   <div :class="`notify-box ${notify.typeClass} pd-8`" v-show="notify.show">{{ notify.content }}</div>
-  <app-loading></app-loading>
+  <app-loading v-if="loadingCounter > 0"></app-loading>
 </template>
 <script setup>
 import { bindTokenGetter, isHttpError, isNetworkError } from '@/api.js'
 import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
-import { computed, onBeforeMount, onBeforeUnmount, reactive, provide } from 'vue'
+import { onBeforeMount, onBeforeUnmount, reactive, provide, ref } from 'vue'
 import AppLoading from 'components/AppLoading.vue'
 const router = useRouter()
 const systemStore = useSystemStore()
+const loadingCounter = ref(0)
 const notify = reactive({
   typeClass: 'success',
   content: 'abc',
@@ -30,6 +31,12 @@ function showNotify(message, type, time = 3) {
 }
 
 const feedback = {
+  showAppLoading() {
+    loadingCounter.value++
+  },
+  closeAppLoading() {
+    loadingCounter.value--
+  },
   showSuccessMessage(message) {
     if (!message) {
       message = '操作成功'
@@ -43,10 +50,6 @@ const feedback = {
     showNotify(message, 'error')
   },
 }
-
-const isAuthenticated = computed(() => {
-  return !!systemStore.user
-})
 
 const rejectionHandler = (event) => {
   const { reason } = event
@@ -65,11 +68,12 @@ const rejectionHandler = (event) => {
 provide('feedback', feedback)
 
 router.beforeEach(async (to) => {
-  if (!to.meta.noAuth && !isAuthenticated.value) {
-    const user = await systemStore.loadMyInfo()
-    if (!user) {
+  console.warn(to)
+  if (!to.meta.noAuth && !systemStore.isAuthenticated) {
+    await systemStore.loadMyInfo()
+    if (!systemStore.isAuthenticated) {
       systemStore.$patch({ targetRoute: to })
-      return { name: 'Login' }
+      return { name: 'Login', replace: true }
     }
   }
 })
