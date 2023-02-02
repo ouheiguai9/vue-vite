@@ -1,21 +1,29 @@
 <template>
-  <div class="flex-r-center flex-r-st pd-lr-12 f-s-medium head-tool-bar">
-    <slot name="left"><span class="icon-font">&#xe602;返回</span></slot>
-    <slot></slot>
-    <slot name="right"> </slot>
+  <div class="flex-r-center flex-r-st pd-lr-12 f-s-medium head-tool-bar" :style="{ backgroundColor: background, color: fontColor }">
+    <div class="icon-font" @click="router.back()">&#xe602;返回</div>
+    <div>
+      <slot></slot>
+    </div>
+    <div>
+      <slot name="right"> </slot>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
 defineProps({
-  title: {
+  background: {
     type: String,
+    default: 'var(--main-color)',
   },
-  iconColor: {
+  fontColor: {
     type: String,
-    default: '#fff',
+    default: 'var(--font-color-white)',
   },
 })
+const router = useRouter()
 </script>
 
 <style lang="scss" scoped>
@@ -26,7 +34,5 @@ defineProps({
   width: 100vw;
   height: 40px;
   overflow: hidden;
-  background-color: var(--main-color);
-  color: var(--font-color-white);
 }
 </style>

@@ -1,9 +1,10 @@
 <template>
   <div class="page agreement" v-if="agreementStatus">
-    <head-tool-bar>
-      <template #left><span class="icon-font" @touchstart="agreementStatus = false">&#xe602;关闭</span></template>
-    </head-tool-bar>
-    <div class="pd-lr-12 pd-t-48" v-html="agreement"></div>
+    <div class="pd-lr-12 pd-b-48" v-html="agreement"></div>
+    <div class="flex-r-center flex-r-st f-s-medium agreement-tool-bar">
+      <span class="pd-12 f-c-main" @touchstart="agreeAgreement">同意</span>
+      <span class="pd-12 f-c-light" @touchstart="agreementStatus = false">返回</span>
+    </div>
   </div>
   <div class="page flex-c-center flex-jc-center" v-else>
     <div class="icon-view s-64 logo-bg"></div>
@@ -66,6 +67,11 @@ function showAgreement() {
   }
 }
 
+function agreeAgreement() {
+  checked.value = true
+  agreementStatus.value = false
+}
+
 function sendCaptcha() {
   if (countDown.value > 0 || !testPhone()) {
     return
@@ -126,6 +132,27 @@ onBeforeUnmount(() => {
 
   &.agreement {
     overflow: auto;
+  }
+}
+
+.agreement-tool-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--font-color-white);
+  border-top: 1px solid #ccc;
+  box-shadow: 0 0 4px rgb(0 0 0 / 20%);
+
+  span {
+    display: block;
+    flex: auto;
+    text-align: center;
+
+    &:first-child {
+      border-right: 1px solid #ccc;
+    }
   }
 }
 
