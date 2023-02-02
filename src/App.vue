@@ -68,7 +68,6 @@ const rejectionHandler = (event) => {
 provide('feedback', feedback)
 
 router.beforeEach(async (to) => {
-  console.warn(to)
   if (!to.meta.noAuth && !systemStore.isAuthenticated) {
     await systemStore.loadMyInfo()
     if (!systemStore.isAuthenticated) {

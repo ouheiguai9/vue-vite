@@ -1,5 +1,11 @@
 <template>
-  <div class="page flex-c-center flex-jc-center">
+  <div class="page agreement" v-if="agreementStatus">
+    <head-tool-bar>
+      <template #left><span class="icon-font" @touchstart="agreementStatus = false">&#xe602;关闭</span></template>
+    </head-tool-bar>
+    <div class="pd-lr-12 pd-t-48" v-html="agreement"></div>
+  </div>
+  <div class="page flex-c-center flex-jc-center" v-else>
     <div class="icon-view s-64 logo-bg"></div>
     <div class="f-c-black f-s-large mg-t-24">登录/注册</div>
     <div class="flex-r-st mg-t-48">
@@ -28,6 +34,7 @@ import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import { apiSendCaptcha, apiGetAgreement } from '@/api.js'
 import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
+import HeadToolBar from 'components/HeadToolBar.vue'
 
 const systemStore = useSystemStore()
 const router = useRouter()
@@ -36,6 +43,7 @@ const agreement = ref('')
 const phone = ref('')
 const captcha = ref('')
 const checked = ref(false)
+const agreementStatus = ref(false)
 const countDown = ref(0)
 const checkIcon = computed(() => (checked.value ? '&#xe600;' : '&#xe72f;'))
 const countDownInterval = setInterval(() => {
@@ -45,9 +53,16 @@ const countDownInterval = setInterval(() => {
 }, 1000)
 
 function showAgreement() {
-  if(!agreement.value) {
+  if (!agreement.value) {
     feedback.showAppLoading()
-    apiGetAgreement.then(({data})=>agreement.value = data).finally(feedback.closeAppLoading)
+    apiGetAgreement()
+      .then(({ data }) => {
+        agreement.value = data
+        agreementStatus.value = true
+      })
+      .finally(feedback.closeAppLoading)
+  } else {
+    agreementStatus.value = true
   }
 }
 
@@ -108,6 +123,10 @@ onBeforeUnmount(() => {
 .page {
   height: 100vh;
   overflow: hidden;
+
+  &.agreement {
+    overflow: auto;
+  }
 }
 
 .input-box {
