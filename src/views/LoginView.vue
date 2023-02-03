@@ -90,7 +90,11 @@ function sendCaptcha() {
 }
 
 function doLogin() {
-  if (!checked.value || !testPhone() || !testCaptcha()) {
+  if (!checked.value) {
+    feedback.showErrorMessage('请阅读并勾选用户协议')
+    return
+  }
+  if (!testPhone() || !testCaptcha()) {
     return
   }
   feedback.showAppLoading()
