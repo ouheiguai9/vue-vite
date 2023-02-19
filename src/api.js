@@ -31,7 +31,7 @@ export const apiSendCaptcha = (to = '') => {
   params.append('addUser', 'true')
   params.append('minutes', '30')
   params.append('to', to)
-  params.append('target', 'C' + to)
+  params.append('target', 'L' + to)
   return instance.post('/api/sms/login/captcha', params)
 }
 
@@ -41,13 +41,15 @@ export const apiLogin = (phone, captcha) => {
       _auth_type_key_: 'dynamic-captcha',
       tenantId: TENANT_ID,
       targetType: 'phone',
-      target: `C${phone}`,
+      target: `L${phone}`,
       captcha: captcha,
     },
   })
 }
 
-export const apiGetMyInfo = () => instance.get('dfb/customers')
+export const apiSubmitInfo = (data) => instance.post('dfb/lawyers/submit', data)
+
+export const apiGetMyInfo = () => instance.get('dfb/lawyers')
 
 export const apiGetAgreement = () => instance.get(`${import.meta.env.VITE_RESOURCE_BASE_URL}/customer-agreement.txt`)
 

@@ -1,17 +1,16 @@
 <template>
-  <router-view />
   <div :class="`notify-box ${notify.typeClass} pd-8`" v-show="notify.show">{{ notify.content }}</div>
   <app-loading v-if="loadingCounter > 0"></app-loading>
-  <consult-confirm v-if="showConsult" @on-cancel="onCancelCallConfirm" @on-ok="onOkCallConfirm"></consult-confirm>
+  <index-view v-if="systemStore.isAuthenticated"></index-view>
+  <login-view v-else></login-view>
 </template>
 <script setup>
 import { bindTokenGetter, isHttpError, isNetworkError } from '@/api.js'
-import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
 import { onBeforeMount, onBeforeUnmount, reactive, provide, ref } from 'vue'
 import AppLoading from 'components/AppLoading.vue'
-import ConsultConfirm from 'components/ConsultConfirm.vue'
-const router = useRouter()
+import LoginView from 'views/LoginView.vue'
+import IndexView from 'views/IndexView.vue'
 const systemStore = useSystemStore()
 const loadingCounter = ref(0)
 const showConsult = ref(false)
@@ -31,20 +30,6 @@ function showNotify(message, type, time = 3) {
   notify.content = message
   notify.typeClass = type
   notify.show = time
-}
-
-function onCancelCallConfirm() {
-  systemStore.dontShowConsult()
-  showConsult.value = false
-}
-
-function onOkCallConfirm() {
-  onCancelCallConfirm()
-  if (systemStore.isAuthenticated) {
-    router.push({ name: 'Service' })
-  } else {
-    router.push({ name: 'Login' })
-  }
 }
 
 const feedback = {
@@ -86,16 +71,6 @@ const rejectionHandler = (event) => {
 }
 
 provide('feedback', feedback)
-
-router.beforeEach(async (to) => {
-  if (!to.meta.noAuth && !systemStore.isAuthenticated) {
-    await systemStore.loadMyInfo()
-    if (!systemStore.isAuthenticated) {
-      systemStore.$patch({ targetRoute: to })
-      return { name: 'Login', replace: true }
-    }
-  }
-})
 
 onBeforeMount(() => {
   bindTokenGetter(() => systemStore.token)

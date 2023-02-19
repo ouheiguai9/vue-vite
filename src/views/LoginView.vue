@@ -24,7 +24,7 @@
     </div>
     <div class="flex-r-st f-s-small mg-t-24" @touchstart="checked = !checked">
       <span class="icon-font f-s-large f-c-main mg-r-8" v-html="checkIcon"></span>我同意
-      <span class="f-c-main mg-l-8" @touchstart.stop="showAgreement">《用户注册协议》</span>
+      <span class="f-c-main mg-l-8" @touchstart.stop="showAgreement">《律师服务合作协议》</span>
     </div>
     <button class="btn-submit center-content f-c-white mg-t-24 mg-b-64" :class="{ disabled: !checked }" @touchstart="doLogin">登录/注册</button>
   </div>
@@ -33,12 +33,9 @@
 <script setup>
 import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import { apiSendCaptcha, apiGetAgreement } from '@/api.js'
-import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
-import HeadToolBar from 'components/HeadToolBar.vue'
 
 const systemStore = useSystemStore()
-const router = useRouter()
 const feedback = inject('feedback')
 const agreement = ref('')
 const phone = ref('')
@@ -101,7 +98,8 @@ function doLogin() {
   systemStore
     .login(phone.value, captcha.value)
     .then(() => {
-      router.replace(!systemStore.targetRoute ? { name: 'Home' } : systemStore.targetRoute)
+      systemStore.loadMyInfo()
+      feedback.showSuccessMessage('登录成功')
     })
     .finally(() => {
       feedback.closeAppLoading()
@@ -172,6 +170,7 @@ onBeforeUnmount(() => {
     margin: 0;
     padding: 0;
     border: none;
+    background: transparent;
   }
 
   input::placeholder {

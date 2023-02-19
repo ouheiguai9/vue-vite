@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
-import { VantResolver } from 'unplugin-vue-components/resolvers'
 import path from 'path'
 
 const htmlPlugin = () => {
@@ -25,13 +24,7 @@ export default defineConfig({
       views: path.resolve(__dirname, 'src/views'),
     },
   },
-  plugins: [
-    vue(),
-    Components({
-      resolvers: [VantResolver()],
-    }),
-    htmlPlugin(),
-  ],
+  plugins: [vue(), Components({}), htmlPlugin()],
   build: {
     assetsInlineLimit: 20 * 1024,
     rollupOptions: {

@@ -8,20 +8,17 @@ export default defineStore(id, {
     return {
       token,
       user: null,
-      targetRoute: null,
-      showConsult: true,
-      serviceType: '',
     }
   },
   getters: {
     isAuthenticated() {
       return this.user !== null
     },
+    isApproved() {
+      return this.user && this.user.state !== 'CREATED' && this.user.state !== 'NOT_APPROVED'
+    },
   },
   actions: {
-    dontShowConsult() {
-      this.showConsult = false
-    },
     async loadMyInfo() {
       if (!this.token) return null
       try {
