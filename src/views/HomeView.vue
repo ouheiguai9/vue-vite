@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <header>
-      <div class="call shadow-box flex-r-st f-c-white mg-lr-16 pd-lr-16" @touchstart="showConsult = true">
+      <div class="call shadow-box flex-r-st f-c-white mg-lr-16 pd-lr-16" @touchstart="feedback.showConsultConfirm()">
         <div class="call-phone circle icon-font center-content">&#xe94f;</div>
         <div class="call-fee"></div>
         <div class="call-btn pd-lr-8 pd-tb-4">去咨询 ></div>
@@ -62,19 +62,16 @@
       </div>
     </main>
     <app-footer></app-footer>
-    <consult-confirm v-if="showConsult" @on-cancel="onCancelCallConfirm" @on-ok="onOkCallConfirm"></consult-confirm>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount, inject } from 'vue'
 import AppFooter from 'components/AppFooter.vue'
-import ConsultConfirm from 'components/ConsultConfirm.vue'
 import useSystemStore from 'stores/system'
 import { useRouter } from 'vue-router'
 
 const systemStore = useSystemStore()
-const showConsult = ref(false)
 const serviceTypeList = [
   {
     text: '婚姻财产',
@@ -125,36 +122,30 @@ const tags = [
 ]
 const router = useRouter()
 const phone = ref(randomPhone())
+const confirmTimeOut = ref(0)
+const feedback = inject('feedback')
 const list = ['a', 'b', 'c']
 const rateValue = ref(4.3)
 const desc = ref('这是一段最多显示一行的文字，多余的内容会被省略这是一段最多显示一行的文字，多余的内容会被省略')
 
 onMounted(() => {
   if (systemStore.showConsult) {
-    setTimeout(() => {
-      showConsult.value = systemStore.showConsult
+    confirmTimeOut.value = setTimeout(() => {
+      feedback.showConsultConfirm()
     }, 5000)
   }
   intervalRefreshPhone()
 })
 
+onBeforeUnmount(() => {
+  if (confirmTimeOut.value) {
+    clearTimeout(confirmTimeOut.value)
+  }
+})
+
 function onClickServiceType(text) {
   systemStore.serviceType = text
-  showConsult.value = true
-}
-
-function onCancelCallConfirm() {
-  systemStore.dontShowConsult()
-  showConsult.value = false
-}
-
-function onOkCallConfirm() {
-  onCancelCallConfirm()
-  if (systemStore.isAuthenticated) {
-    router.push({ name: 'Service' })
-  } else {
-    router.push({ name: 'Login' })
-  }
+  feedback.showConsultConfirm()
 }
 
 function onClickProfile() {

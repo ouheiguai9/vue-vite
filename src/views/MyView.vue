@@ -12,7 +12,7 @@
         <div class="flex-r-st"><span class="icon-font f-c-main f-s-extra-large mg-r-12">&#xe643;</span><span>我的订单</span></div>
         <div class="f-c-extra-light">&gt;</div>
       </div>
-      <div class="btn mg-t-12 flex-r-st pd-lr-16">
+      <div class="btn mg-t-12 flex-r-st pd-lr-16" @touchstart="feedback.showConsultConfirm()">
         <div class="flex-r-st"><span class="icon-font f-c-main f-s-extra-large mg-r-12">&#xe611;</span><span>电话咨询</span></div>
         <div class="f-c-extra-light">&gt;</div>
       </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
 
@@ -33,6 +33,7 @@ const router = useRouter()
 const myPhone = computed(() => {
   return systemStore.user.phone.replace(/^(\d{3})\d{4}(\d{4})$/, (rs, p1, p2) => `${p1}****${p2}`)
 })
+const feedback = inject('feedback')
 function goBack() {
   router.back()
 }

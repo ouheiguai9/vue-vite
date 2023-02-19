@@ -2,6 +2,7 @@
   <router-view />
   <div :class="`notify-box ${notify.typeClass} pd-8`" v-show="notify.show">{{ notify.content }}</div>
   <app-loading v-if="loadingCounter > 0"></app-loading>
+  <consult-confirm v-if="showConsult" @on-cancel="onCancelCallConfirm" @on-ok="onOkCallConfirm"></consult-confirm>
 </template>
 <script setup>
 import { bindTokenGetter, isHttpError, isNetworkError } from '@/api.js'
@@ -9,9 +10,11 @@ import { useRouter } from 'vue-router'
 import useSystemStore from 'stores/system.js'
 import { onBeforeMount, onBeforeUnmount, reactive, provide, ref } from 'vue'
 import AppLoading from 'components/AppLoading.vue'
+import ConsultConfirm from 'components/ConsultConfirm.vue'
 const router = useRouter()
 const systemStore = useSystemStore()
 const loadingCounter = ref(0)
+const showConsult = ref(false)
 const notify = reactive({
   typeClass: 'success',
   content: 'abc',
@@ -28,6 +31,20 @@ function showNotify(message, type, time = 3) {
   notify.content = message
   notify.typeClass = type
   notify.show = time
+}
+
+function onCancelCallConfirm() {
+  systemStore.dontShowConsult()
+  showConsult.value = false
+}
+
+function onOkCallConfirm() {
+  onCancelCallConfirm()
+  if (systemStore.isAuthenticated) {
+    router.push({ name: 'Service' })
+  } else {
+    router.push({ name: 'Login' })
+  }
 }
 
 const feedback = {
@@ -48,6 +65,9 @@ const feedback = {
       message = '未知错误'
     }
     showNotify(message, 'error')
+  },
+  showConsultConfirm() {
+    showConsult.value = true
   },
 }
 
