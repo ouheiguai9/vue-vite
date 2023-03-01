@@ -44,19 +44,19 @@
           <span class="f-s-small f-c-light">更多&nbsp; ></span>
         </div>
         <div class="flex-r-center flex-wrap">
-          <div class="tag-item pd-4 mg-t-12 mg-r-8 f-s-extra-small nowrap" v-for="item in tags" :key="item.text">
+          <div class="tag-item pd-4 mg-t-12 mg-r-8 f-s-extra-small nowrap" v-for="item in simpleTagList" :key="item.text">
             {{ item.text }}<span class="f-c-black mg-l-4">({{ item.count }})</span>
           </div>
         </div>
-        <div class="comment-item f-c-light f-s-small pd-b-12" v-for="item in list" :key="item">
+        <div class="comment-item f-c-light f-s-small pd-b-12" v-for="item in commentList" :key="item">
           <div class="flex-r-st mg-t-12">
-            <div class="flex-r-st"><i class="icon-font f-s-large mg-r-8 gold-text">&#xe61e;</i>用户189****3030评价</div>
-            <div>服务律师：张律师</div>
+            <div class="flex-r-st"><i class="icon-font f-s-large mg-r-8 gold-text">&#xe61e;</i>用户{{ item.customer }}评价</div>
+            <div>服务律师：{{ item.lawyer }}</div>
           </div>
-          <div class="text-overflow f-s-extra-small f-c-black mg-t-12">{{ desc }}</div>
+          <div class="text-overflow f-s-extra-small f-c-black mg-t-12">{{ item.content }}</div>
           <div class="flex-r-st mg-t-12">
-            <van-rate v-model="rateValue" :size="16" color="#ffd21e" readonly allow-half />
-            <div>2022-10-11 13:14</div>
+            <pure-rate v-model="item.value" />
+            <div>{{ item.createTime }}</div>
           </div>
         </div>
       </div>
@@ -66,10 +66,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, inject } from 'vue'
+import { ref, onMounted, onBeforeUnmount, inject, onBeforeMount, computed } from 'vue'
 import AppFooter from 'components/AppFooter.vue'
 import useSystemStore from 'stores/system'
 import { useRouter } from 'vue-router'
+import { apiGetCommentList, apiGetLabelCount } from '@/api.js'
+import PureRate from 'components/pure/PureRate.vue'
 
 const systemStore = useSystemStore()
 const serviceTypeList = [
@@ -106,28 +108,33 @@ const serviceTypeList = [
     icon: '&#xe610;',
   },
 ]
-const tags = [
-  {
-    text: '服务态度好',
-    count: 123,
-  },
-  {
-    text: '律师专业',
-    count: 542,
-  },
-  {
-    text: '分析透彻',
-    count: 213,
-  },
-]
+const tagList = ref([
+  { text: '律师专业', count: 0 },
+  { text: '服务态度好', count: 0 },
+  { text: '挽回了损失', count: 0 },
+  { text: '分析透彻', count: 0 },
+  { text: '很有帮助', count: 0 },
+  { text: '很有耐心', count: 0 },
+])
+
+const simpleTagList = computed(() => {
+  return [1, 0, 3].map((i) => tagList.value[i])
+})
 const router = useRouter()
 const phone = ref(randomPhone())
 const confirmTimeOut = ref(0)
 const feedback = inject('feedback')
-const list = ['a', 'b', 'c']
-const rateValue = ref(4.3)
-const desc = ref('这是一段最多显示一行的文字，多余的内容会被省略这是一段最多显示一行的文字，多余的内容会被省略')
+const commentList = ref([])
 
+onBeforeMount(() => {
+  feedback.showAppLoading()
+  Promise.all([apiGetCommentList(), apiGetLabelCount()])
+    .then(([res1, res2]) => {
+      commentList.value = res1.data
+      tagList.value.forEach((item, index) => (item.count = res2.data[index]))
+    })
+    .finally(() => feedback.closeAppLoading())
+})
 onMounted(() => {
   if (systemStore.showConsult) {
     confirmTimeOut.value = setTimeout(() => {

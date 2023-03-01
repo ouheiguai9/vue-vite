@@ -51,4 +51,12 @@ export const apiGetMyInfo = () => instance.get('dfb/customers')
 
 export const apiGetAgreement = () => instance.get(`${import.meta.env.VITE_RESOURCE_BASE_URL}/customer-agreement.txt`)
 
+export const apiGetCommentList = (page = 0, size = 5) => {
+  return instance.get('/api/dfb/comment/list', {
+    params: { page, size },
+  })
+}
+
+export const apiGetLabelCount = () => instance.get('/api/dfb/comment/count/label')
+
 export const apiLogout = () => instance.post('logout')
