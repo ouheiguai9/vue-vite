@@ -35,9 +35,11 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue'
+import { computed, ref, reactive, inject } from 'vue'
 import { apiSubmitInfo } from '@/api.js'
 import useSystemStore from 'stores/system.js'
+
+const feedback = inject('feedback')
 const systemStore = useSystemStore()
 const skillItem = [
   {
@@ -95,6 +97,13 @@ function onClickSkill(item) {
 }
 
 function doApproved() {
+  if (validate(name, '真实姓名') || validate(certificate, '身份证号') || validate(lawId, '执业证号') || validate(lawFirm, '执业律所')) {
+    return
+  }
+  if (skillItem.reduce((prev, item) => prev + (form[item.value] ? 1 : 0), 0) === 0) {
+    feedback.showErrorMessage('请至少选择一个擅长领域')
+    return
+  }
   apiSubmitInfo(
     Object.assign(copyUser, {
       name: name.value,
@@ -103,6 +112,14 @@ function doApproved() {
       lawFirm: lawFirm.value,
     })
   ).then(({ data }) => (systemStore.user = data))
+}
+
+function validate(refValue, message) {
+  if (refValue.value === '' || refValue.value === undefined || refValue.value === null) {
+    feedback.showErrorMessage(`请填写${message}`)
+    return true
+  }
+  return false
 }
 </script>
 

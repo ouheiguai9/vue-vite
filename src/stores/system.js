@@ -15,7 +15,7 @@ export default defineStore(id, {
       return this.user !== null
     },
     isApproved() {
-      return this.user && this.user.state !== 'CREATED' && this.user.state !== 'NOT_APPROVED'
+      return this.user && this.user.state !== 'CREATED'
     },
   },
   actions: {

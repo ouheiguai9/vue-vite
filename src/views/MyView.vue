@@ -1,11 +1,9 @@
 <template>
   <div class="page">
-    <div class="go-back f-s-extra-large f-c-white pd-12" @touchstart="goBack">&lt;</div>
     <header class="flex-c-center flex-jc-center f-c-white f-s-extra-small">
       <div class="icon-font center-content circle f-c-extra-light avatar">&#xe61e;</div>
-      <div class="mg-t-8">我的</div>
+      <div class="mg-t-8">{{ systemStore.user.name }}</div>
       <div class="mg-t-12 f-s-large">{{ myPhone }}</div>
-      <div class="mg-t-12">注册用户手机号</div>
     </header>
     <main class="mg-16">
       <div class="btn mg-t-8 flex-r-st pd-lr-16">
