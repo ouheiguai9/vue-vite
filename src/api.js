@@ -47,7 +47,7 @@ export const apiLogin = (phone, captcha) => {
   })
 }
 
-export const apiGetMyInfo = () => instance.get('dfb/customers')
+export const apiGetMyInfo = () => instance.get('dfb/customers/me')
 
 export const apiGetAgreement = () => instance.get(`${import.meta.env.VITE_RESOURCE_BASE_URL}/customer-agreement.txt`)
 
