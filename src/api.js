@@ -57,6 +57,6 @@ export const apiGetCommentList = (page = 0, size = 5) => {
   })
 }
 
-export const apiGetLabelCount = () => instance.get('/api/dfb/comment/count/label')
+export const apiGetLabelStat = () => instance.get('/api/dfb/comment/label/stat')
 
 export const apiLogout = () => instance.post('logout')

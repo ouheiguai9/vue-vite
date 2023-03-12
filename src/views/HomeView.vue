@@ -50,8 +50,8 @@
         </div>
         <div class="comment-item f-c-light f-s-small pd-b-12" v-for="item in commentList" :key="item">
           <div class="flex-r-st mg-t-12">
-            <div class="flex-r-st"><i class="icon-font f-s-large mg-r-8 gold-text">&#xe61e;</i>用户{{ item.customer }}评价</div>
-            <div>服务律师：{{ item.lawyer }}</div>
+            <div class="flex-r-st"><i class="icon-font f-s-large mg-r-8 gold-text">&#xe61e;</i>用户{{ item.secureCustomer }}评价</div>
+            <div>服务律师：{{ item.secureLawyer }}</div>
           </div>
           <div class="text-overflow f-s-extra-small f-c-black mg-t-12">{{ item.content }}</div>
           <div class="flex-r-st mg-t-12">
@@ -70,7 +70,7 @@ import { ref, onMounted, onBeforeUnmount, inject, onBeforeMount, computed } from
 import AppFooter from 'components/AppFooter.vue'
 import useSystemStore from 'stores/system'
 import { useRouter } from 'vue-router'
-import { apiGetCommentList, apiGetLabelCount } from '@/api.js'
+import { apiGetCommentList, apiGetLabelStat } from '@/api.js'
 import PureRate from 'components/pure/PureRate.vue'
 
 const systemStore = useSystemStore()
@@ -128,10 +128,10 @@ const commentList = ref([])
 
 onBeforeMount(() => {
   feedback.showAppLoading()
-  Promise.all([apiGetCommentList(), apiGetLabelCount()])
+  Promise.all([apiGetCommentList(), apiGetLabelStat()])
     .then(([res1, res2]) => {
       commentList.value = res1.data
-      tagList.value.forEach((item, index) => (item.count = res2.data[index]))
+      tagList.value.forEach((item, index) => (item.count = res2.data[`count${index + 1}`]))
     })
     .finally(() => feedback.closeAppLoading())
 })
