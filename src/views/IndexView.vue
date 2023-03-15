@@ -38,7 +38,8 @@ const tab = ref(tabs[0])
   left: 0;
   width: 100vw;
   height: 50px;
-  border-top: 1px solid #eee;
+  background: #f7f8ff;
+  border-top: 1px solid #aaa;
 
   .tab {
     flex: 1;
