@@ -4,6 +4,9 @@
     <section class="pd-lr-16 mg-t-16">
       <div class="flex-r-st">
         <div class="white-box pd-16">
+          <span :class="`icon-font f-s-large f-w-bold ${statusText.color}`" @touchstart="onTouchStatusSwitch">
+            {{ systemStore.user.state === 'OFF_DUTY' ? '&#xe612;' : '&#xe609;' }}
+          </span>
           <div :class="`f-s-large f-w-bold ${statusText.color}`">{{ statusText.main }}</div>
           <div class="f-s-extra-small f-c-light">{{ statusText.sub }}<br />{{ statusText.detail }}</div>
           <i class="icon-font">&#xe953;</i>
@@ -24,10 +27,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import useSystemStore from 'stores/system.js'
+import { apiUpdateDutyStatus } from '@/api.js'
 
 const systemStore = useSystemStore()
+const feedback = inject('feedback')
 const statusText = computed(() => {
   if (systemStore.user.state === 'NOT_APPROVED') {
     return {
@@ -41,18 +46,35 @@ const statusText = computed(() => {
       main: '下班中',
       sub: '点击按钮',
       detail: '开始接单',
-      color: 'f-c-sub',
+      color: 'f-c-light',
+      status: 'on',
+      confirm: '确定上线接收订单推送，上线后请保持电话畅通',
+      next: 'ON_DUTY',
     }
   } else if (systemStore.user.state === 'ON_DUTY') {
     return {
-      main: '上班中中',
+      main: '上班中',
       sub: '点击按钮',
       detail: '停止接单',
       color: 'f-c-main',
+      status: 'off',
+      confirm: '确定关闭订单推送',
+      next: 'OFF_DUTY',
     }
   }
   return {}
 })
+
+function onTouchStatusSwitch() {
+  feedback.showConfirm(statusText.value.confirm).then((flag) => {
+    if (flag) {
+      feedback.showAppLoading()
+      apiUpdateDutyStatus(statusText.value.status)
+        .then(() => (systemStore.user.state = statusText.value.next))
+        .finally(() => feedback.closeAppLoading())
+    }
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -79,12 +101,18 @@ header {
 
   i.icon-font {
     position: absolute;
-    bottom: 16px;
+    bottom: 10px;
     right: 16px;
     font-size: 48px;
     color: orange;
     opacity: 0.2;
     z-index: 0;
+  }
+
+  span.icon-font {
+    position: absolute;
+    top: 21px;
+    right: 16px;
   }
 }
 

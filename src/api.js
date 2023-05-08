@@ -49,6 +49,8 @@ export const apiLogin = (phone, captcha) => {
 
 export const apiSubmitInfo = (data) => instance.post('dfb/lawyers/submit', data)
 
+export const apiUpdateDutyStatus = (status) => instance.post(`dfb/lawyers/duty/${status}`)
+
 export const apiGetMyInfo = () => instance.get('dfb/lawyers/me')
 
 export const apiGetAgreement = () => instance.get(`${import.meta.env.VITE_RESOURCE_BASE_URL}/customer-agreement.txt`)

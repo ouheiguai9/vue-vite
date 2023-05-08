@@ -1,6 +1,7 @@
 <template>
   <div :class="`notify-box ${notify.typeClass} pd-8`" v-show="notify.show">{{ notify.content }}</div>
   <app-loading v-if="loadingCounter > 0"></app-loading>
+  <operation-confirm v-if="confirm.message" @on-ok="onConfirmClose(true)" @on-cancel="onConfirmClose(false)">{{ confirm.message }}</operation-confirm>
   <index-view v-if="systemStore.isAuthenticated"></index-view>
   <login-view v-else></login-view>
 </template>
@@ -11,9 +12,13 @@ import { onBeforeMount, onBeforeUnmount, reactive, provide, ref } from 'vue'
 import AppLoading from 'components/AppLoading.vue'
 import LoginView from 'views/LoginView.vue'
 import IndexView from 'views/IndexView.vue'
+import OperationConfirm from 'components/OperationConfirm.vue'
 const systemStore = useSystemStore()
 const loadingCounter = ref(0)
-const showConsult = ref(false)
+const confirm = reactive({
+  message: null,
+  resolve: null,
+})
 const notify = reactive({
   typeClass: 'success',
   content: 'abc',
@@ -51,8 +56,14 @@ const feedback = {
     }
     showNotify(message, 'error')
   },
-  showConsultConfirm() {
-    showConsult.value = true
+  showConfirm(message) {
+    if (!message) {
+      message = '操作确认'
+    }
+    return new Promise((resolve) => {
+      confirm.message = message
+      confirm.resolve = resolve
+    })
   },
 }
 
@@ -71,6 +82,12 @@ const rejectionHandler = (event) => {
 }
 
 provide('feedback', feedback)
+
+function onConfirmClose(flag) {
+  confirm.resolve(flag)
+  confirm.message = null
+  confirm.resolve = null
+}
 
 onBeforeMount(() => {
   bindTokenGetter(() => systemStore.token)
